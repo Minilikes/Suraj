@@ -1,0 +1,137 @@
+<!-- 
+  =============================================================================
+  S.U.R.A.J. DASHBOARD - MAIN HTML FILE
+  =============================================================================
+  This file provides the skeleton of our dashboard. It defines where every 
+  piece of text, every slider, and the visual gauge should be placed on the screen.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Character set for universal text support -->
+    <meta charset="UTF-8">
+    
+    <!-- Makes the website responsive on mobile phones -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- The title that appears in the browser tab -->
+    <title>S.U.R.A.J. Dashboard</title>
+    
+    <!-- Link to our CSS file which provides all the visual styling, colors, and layout -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Import two Google Fonts: 
+         - 'Orbitron' is used for futuristic headers and numbers.
+         - 'Inter' is used for clean, readable standard text. -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <!-- The main wrapper that centers everything on the screen and limits the maximum width -->
+    <div class="dashboard-container">
+        
+        <!-- =========================================================
+             HEADER SECTION
+             ========================================================= -->
+        <!-- Contains the logo, title, and subtitle -->
+        <header>
+            <!-- Our futuristic, pulsing sun icon (loaded from the assets folder) -->
+            <img src="assets/icon.png" alt="S.U.R.A.J. Energy Icon" class="header-icon">
+            
+            <!-- The main title with a neon glow effect applied via CSS -->
+            <h1 class="glow-text">S.U.R.A.J.</h1>
+            <p>Solar Energy Forecasting Dashboard</p>
+        </header>
+
+        <!-- =========================================================
+             MAIN CONTENT GRID
+             ========================================================= -->
+        <!-- This grid splits the screen into two halves (Controls on left, Output on right) -->
+        <main class="dashboard-grid">
+            
+            <!-- -----------------------------------------------------
+                 LEFT PANEL: INPUT CONTROLS
+                 ----------------------------------------------------- -->
+            <!-- The 'glass-panel' class applies the semi-transparent frosted glass look -->
+            <section class="panel controls-panel glass-panel">
+                <h2>Environmental Inputs</h2>
+                
+                <!-- SLIDER 1: Cloud Fraction -->
+                <div class="slider-group">
+                    <label for="cloud-fraction">
+                        <span>Cloud Fraction</span>
+                        <!-- This span holds the number that updates when the slider moves -->
+                        <span id="cloud-val" class="value-display">50%</span>
+                    </label>
+                    <!-- The actual slider input. Min is 0, Max is 100, starting at 50 -->
+                    <input type="range" id="cloud-fraction" min="0" max="100" value="50">
+                </div>
+
+                <!-- SLIDER 2: Temperature -->
+                <div class="slider-group">
+                    <label for="temperature">
+                        <span>Temperature</span>
+                        <span id="temp-val" class="value-display">25 °C</span>
+                    </label>
+                    <input type="range" id="temperature" min="10" max="45" value="25">
+                </div>
+
+                <!-- SLIDER 3: Humidity -->
+                <div class="slider-group">
+                    <label for="humidity">
+                        <span>Relative Humidity</span>
+                        <span id="humidity-val" class="value-display">50%</span>
+                    </label>
+                    <input type="range" id="humidity" min="10" max="100" value="50">
+                </div>
+
+                <!-- SLIDER 4: Yesterday's Irradiance -->
+                <div class="slider-group">
+                    <label for="yesterday-irradiance">
+                        <span>Yesterday's Irradiance</span>
+                        <span id="yesterday-val" class="value-display">15.0 MJ/m²</span>
+                    </label>
+                    <!-- This slider allows decimal values (step="0.1") -->
+                    <input type="range" id="yesterday-irradiance" min="0" max="30" step="0.1" value="15.0">
+                </div>
+            </section>
+
+            <!-- -----------------------------------------------------
+                 RIGHT PANEL: OUTPUT VISUALIZATION
+                 ----------------------------------------------------- -->
+            <section class="panel output-panel glass-panel">
+                <h2>Predicted Solar Irradiance</h2>
+                
+                <!-- The wrapper for our circular gauge -->
+                <div class="gauge-container">
+                    
+                    <!-- SVG (Scalable Vector Graphics) allows us to draw exact math-based shapes.
+                         Here, we draw the half-circle for the gauge. -->
+                    <svg class="gauge-svg" viewBox="0 0 200 100">
+                        <!-- The dark background track of the gauge -->
+                        <path class="gauge-track" d="M 10 90 A 80 80 0 0 1 190 90" fill="none" />
+                        <!-- The bright neon line that fills up to show the prediction -->
+                        <path id="gauge-fill" class="gauge-fill" d="M 10 90 A 80 80 0 0 1 190 90" fill="none" />
+                    </svg>
+                    
+                    <!-- The large number readout positioned in the center of the gauge arc -->
+                    <div class="gauge-readout">
+                        <span id="prediction-val" class="large-value">0.0</span>
+                        <span class="unit">MJ/m²</span>
+                    </div>
+                </div>
+                
+                <!-- The status indicator pill at the bottom (shows a colored dot and text warning/info) -->
+                <div class="status-indicator">
+                    <div id="status-dot" class="status-dot green"></div>
+                    <span id="status-text">Optimal Conditions</span>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    
+    <!-- Link to our JavaScript file which makes the sliders work and animates the gauge -->
+    <script src="script.js"></script>
+</body>
+</html>

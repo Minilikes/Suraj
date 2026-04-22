@@ -1,0 +1,340 @@
+/* =========================================================
+   1. CSS VARIABLES (THE DESIGN SYSTEM)
+   ========================================================= */
+/* We define variables here so we can easily reuse colors and fonts throughout the document.
+   If we want to change a color later, we only have to change it in one place! */
+:root {
+    /* Background colors */
+    --bg-dark: #030610; /* Very dark blue, almost black */
+    --panel-bg: rgba(13, 22, 45, 0.45); /* Semi-transparent blue for the glass panels */
+    --panel-border: rgba(0, 240, 255, 0.2); /* Faint cyan border for panels */
+    
+    /* Text colors */
+    --text-primary: #f0f8ff; /* Bright white/blue for main text */
+    --text-secondary: #94a3b8; /* Muted gray for labels and units */
+    
+    /* Neon glow colors */
+    --neon-cyan: #00f0ff; /* Bright futuristic blue */
+    --neon-cyan-glow: rgba(0, 240, 255, 0.6); /* Soft glow shadow for cyan */
+    --neon-orange: #ffaa00; /* Warning/moderate color */
+    --neon-red: #ff3333; /* Danger/low output color */
+    
+    /* Typography */
+    --font-heading: 'Orbitron', sans-serif; /* Futuristic font for headers and numbers */
+    --font-body: 'Inter', sans-serif; /* Clean, readable font for normal text */
+}
+
+/* =========================================================
+   2. GLOBAL RESET
+   ========================================================= */
+/* This removes default browser margins and padding so our design looks identical on all browsers */
+* {
+    box-sizing: border-box; /* Ensures padding doesn't increase the total width of elements */
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================================================
+   3. BODY & BACKGROUND
+   ========================================================= */
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh; /* Ensures the background covers the full screen height */
+    
+    /* Flexbox centers the dashboard perfectly in the middle of the screen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* We layer a dark gradient over the custom background image to make sure text is always readable */
+    background-image: 
+        linear-gradient(to bottom, rgba(3, 6, 16, 0.8), rgba(3, 6, 16, 0.95)),
+        url('assets/bg.png');
+    background-size: cover; /* Stretches the image to fit the screen */
+    background-position: center; /* Centers the image */
+    background-attachment: fixed; /* Keeps the background still when scrolling */
+}
+
+/* =========================================================
+   4. LAYOUT CONTAINERS
+   ========================================================= */
+/* The main wrapper that holds everything */
+.dashboard-container {
+    width: 95%; /* Takes up 95% of the screen width... */
+    max-width: 1100px; /* ...but stops expanding after 1100 pixels wide */
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem; /* Space between the header and the main grid */
+}
+
+/* The grid layout that holds the two main panels side-by-side */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+    gap: 2.5rem; /* Space between the two panels */
+}
+
+/* Mobile responsiveness: If the screen is smaller than 850px, stack the panels vertically */
+@media (max-width: 850px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Change to a single column */
+    }
+}
+
+/* =========================================================
+   5. HEADER STYLING
+   ========================================================= */
+header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* The animated sun icon in the header */
+.header-icon {
+    width: 85px;
+    height: 85px;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 15px var(--neon-cyan)); /* Adds a glowing shadow around the PNG */
+    animation: pulse 3s infinite alternate ease-in-out; /* Makes it throb slowly and continuously */
+}
+
+/* The animation keyframes for the pulse effect */
+@keyframes pulse {
+    0% { transform: scale(0.95); filter: drop-shadow(0 0 10px var(--neon-cyan)); }
+    100% { transform: scale(1.05); filter: drop-shadow(0 0 25px var(--neon-cyan)); }
+}
+
+/* The massive S.U.R.A.J title text */
+header h1 {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 0.3rem; /* Spreads the letters out for a high-tech look */
+    color: #fff;
+    /* Multiple text shadows create a realistic neon tube glow */
+    text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan);
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+}
+
+/* =========================================================
+   6. GLASSMORPHISM PANELS
+   ========================================================= */
+/* These classes create the frosted glass effect for our main content boxes */
+.glass-panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(16px); /* Blurs whatever is behind the panel */
+    -webkit-backdrop-filter: blur(16px); /* Safari support */
+    border: 1px solid var(--panel-border);
+    border-radius: 24px; /* Soft rounded corners */
+    padding: 2.5rem;
+    /* Box shadow adds depth, inset shadow creates an inner glow on the edges */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 240, 255, 0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover transition */
+}
+
+/* Lift the panel slightly when hovered for a 3D effect */
+.glass-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(0, 240, 255, 0.08);
+}
+
+/* Panel Titles */
+h2 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--neon-cyan);
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--panel-border);
+    padding-bottom: 0.8rem;
+    letter-spacing: 0.05rem;
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   7. SLIDER (INPUT) CONTROLS
+   ========================================================= */
+.slider-group {
+    margin-bottom: 2rem; /* Space between each slider */
+}
+
+/* The label wrapper containing the name and the number */
+.slider-group label {
+    display: flex;
+    justify-content: space-between; /* Pushes name to left, number to right */
+    margin-bottom: 0.8rem;
+    font-weight: 400;
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+}
+
+/* The dynamic number readout next to the slider */
+.value-display {
+    color: var(--neon-cyan);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-shadow: 0 0 5px var(--neon-cyan-glow);
+}
+
+/* Completely reset the default browser slider styling */
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* The 'thumb' (the little ball you drag) */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%; /* Makes it a circle */
+    background: var(--text-primary);
+    border: 3px solid var(--neon-cyan);
+    margin-top: -9px; /* Centers it vertically on the track */
+    box-shadow: 0 0 12px var(--neon-cyan);
+    transition: transform 0.2s, background 0.2s; /* Smooth pop effect when hovered */
+}
+
+/* Make the thumb pop out when hovered */
+input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.3);
+    background: var(--neon-cyan);
+}
+
+/* The 'track' (the line the ball slides on) */
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+/* =========================================================
+   8. OUTPUT GAUGE STYLING
+   ========================================================= */
+/* Centers the gauge within its panel */
+.output-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.gauge-container {
+    position: relative;
+    width: 100%;
+    max-width: 320px; /* Prevents the gauge from getting too massive */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.gauge-svg {
+    width: 100%;
+    overflow: visible; /* Prevents glowing edges from being clipped */
+}
+
+/* The dim, empty background track of the gauge */
+.gauge-track {
+    stroke: rgba(255, 255, 255, 0.05);
+    stroke-width: 14;
+    stroke-linecap: round; /* Rounds the ends of the line */
+}
+
+/* The bright, colored fill line of the gauge */
+.gauge-fill {
+    stroke: var(--neon-cyan); /* Default color, changed by JS later */
+    stroke-width: 14;
+    stroke-linecap: round;
+    /* This transition makes the gauge fill up smoothly over 0.5 seconds! */
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.5s; 
+    filter: drop-shadow(0 0 10px var(--neon-cyan));
+}
+
+/* Positions the large text directly inside the arc of the gauge */
+.gauge-readout {
+    position: absolute;
+    bottom: -15px; /* Pushes it down towards the flat bottom of the arc */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* The giant predicted number */
+.large-value {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 15px var(--neon-cyan);
+    transition: color 0.5s, text-shadow 0.5s; /* Smooth color change */
+}
+
+/* The "MJ/m²" unit text */
+.unit {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: -8px;
+    letter-spacing: 0.05rem;
+}
+
+/* =========================================================
+   9. STATUS INDICATOR STYLING
+   ========================================================= */
+/* The pill-shaped box at the very bottom */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 3rem;
+    padding: 0.8rem 1.5rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 30px; /* Makes it a pill shape */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* The little glowing LED dot */
+.status-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+/* CSS classes added by JS to change the dot's color */
+.status-dot.green {
+    background: var(--neon-cyan);
+    box-shadow: 0 0 12px var(--neon-cyan);
+}
+.status-dot.yellow {
+    background: var(--neon-orange);
+    box-shadow: 0 0 12px var(--neon-orange);
+}
+.status-dot.red {
+    background: var(--neon-red);
+    box-shadow: 0 0 12px var(--neon-red);
+}
+
+/* The text next to the dot */
+#status-text {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.05rem;
+    text-transform: uppercase;
+}

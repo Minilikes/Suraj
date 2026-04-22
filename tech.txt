@@ -1,0 +1,72 @@
+S.U.R.A.J. (Solar Utility & Radiance Analytical Judgment)
+Technical Explanation Guide for Non-Technical Readers
+================================================================================
+
+Welcome to the S.U.R.A.J. project! This guide explains what this project is and how it works behind the scenes, using simple analogies so anyone can understand it—no coding experience required!
+
+--------------------------------------------------------------------------------
+PART 1: THE "BRAIN" (The Machine Learning Pipeline)
+--------------------------------------------------------------------------------
+Imagine you are trying to predict how sunny it will be tomorrow. To do this accurately, you'd look at past weather records, find patterns, and use those patterns to make a guess. This is exactly what our Machine Learning (ML) pipeline does using Python. It consists of 11 sequential steps (scripts):
+
+1. 01_data_fetch.py (Gathering the Ingredients)
+What it does: This script goes out to the internet (or a database) and downloads massive amounts of historical weather and solar data. 
+Simple terms: It's like going to the grocery store to buy all the raw ingredients before you start cooking.
+
+2. 02_data_preprocessing.py (Washing and Chopping)
+What it does: Raw data is often messy—missing numbers, wrong formats, or duplicates. This script cleans everything up.
+Simple terms: Washing the vegetables and chopping them so they are ready to be used in the recipe.
+
+3. 03_eda.py (Tasting and Inspecting)
+What it does: EDA stands for Exploratory Data Analysis. It creates graphs and charts so we can visually understand the trends (like noticing it's sunnier in July than December).
+Simple terms: Looking at the ingredients to understand their flavor profiles before mixing them.
+
+4. 04_feature_engineering.py (Creating the Secret Sauce)
+What it does: It combines basic data into more useful clues. For example, it might combine "Time of Day" and "Cloud Cover" to create a new, highly predictive clue.
+Simple terms: Mixing spices together to create a unique seasoning blend that makes the dish better.
+
+5. 05_train_test_split.py (Setting Aside the Taste Test)
+What it does: We split our data into two piles. We use 80% of it to "teach" the AI, and hide the remaining 20% to "test" the AI later to see if it actually learned or just memorized the answers.
+Simple terms: Saving a small portion of your meal on the side so someone else can taste-test it later to see if you cooked it right.
+
+6. 06_baseline_model.py (The Beginner's Guess)
+What it does: It makes a very simple, naive prediction (like guessing that tomorrow will be exactly the same as today) to set a baseline score.
+Simple terms: Taking a completely wild guess just to see if our advanced methods are actually doing a better job than random chance.
+
+7. 07_random_forest.py (The Expert Panel)
+What it does: This is the actual AI brain! A "Random Forest" is basically thousands of tiny, slightly different decision trees making predictions, and then they all vote on the final answer.
+Simple terms: Instead of asking one person for the weather forecast, you ask 1,000 meteorologists and take the average of their answers.
+
+8. 08_evaluation.py (Grading the Test)
+What it does: This script compares the AI's predictions against the hidden 20% of data we saved earlier to grade how accurate the AI is.
+Simple terms: The teacher grading the student's final exam.
+
+9. 09_hyperparameter_tuning.py (Fine-Tuning the Dials)
+What it does: The AI has settings (like knobs on a radio). This script automatically twists all the knobs until it finds the perfect frequency where the AI is the smartest.
+Simple terms: Adjusting the oven temperature and baking time until the cake comes out perfectly moist.
+
+10. 10_feature_importance.py (Finding the MVP)
+What it does: It ranks the clues to see which ones the AI relied on the most. (Spoiler: Cloud cover is usually the biggest factor!).
+Simple terms: Figuring out which ingredient was the "star" of the dish.
+
+11. 11_actual_vs_predicted.py (The Final Report Card)
+What it does: It creates a visual chart comparing what actually happened in the real world versus what the AI predicted would happen.
+Simple terms: Putting the real photo of the weather next to your drawing of the weather to see how closely they match.
+
+
+--------------------------------------------------------------------------------
+PART 2: THE "FACE" (The Interactive Dashboard)
+--------------------------------------------------------------------------------
+The "Brain" is great, but it's just code and math. We built a beautiful, interactive "Face" (a web dashboard) so humans can easily play with the AI's logic. It lives in the `dashboard` folder.
+
+1. dashboard/index.html (The Skeleton)
+What it does: This file builds the structure of the website. It places the text, creates the sliding buttons for "Cloud Fraction" and "Temperature", and places the circular gauge on the screen.
+Simple terms: The wooden frame and drywall of a house.
+
+2. dashboard/styles.css (The Paint & Decor)
+What it does: This file makes everything look beautiful. It gives the dashboard its dark, futuristic space theme, adds the glowing neon cyan and orange colors, and makes the sun icon pulse.
+Simple terms: The interior design, paint, lighting, and furniture of the house.
+
+3. dashboard/script.js (The Muscles & Nerves)
+What it does: This file makes the website interactive. It listens to you moving the sliders. When you increase the "Cloud Cover" slider, this script acts like a mini-version of our AI: it does the math, realizes clouds block the sun, and tells the gauge to drop down and turn red.
+Simple terms: The electricity and plumbing of the house—it makes the lights turn on when you flick the switch!
