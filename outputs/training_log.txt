@@ -1,0 +1,11 @@
+RANDOM FOREST TRAINING LOG
+========================================
+Training Date   : 2026-04-22 14:51:11
+Random State    : 42
+n_estimators    : 200
+max_depth       : None
+max_features    : sqrt
+Training Samples: 17
+Features Used   : ['Temperature_C', 'Relative_Humidity_pct', 'Cloud_Fraction', 'Wind_Speed_ms', 'Precipitation_mm', 'Month', 'Day_of_Year', 'Season', 'Month_sin', 'Month_cos', 'DOY_sin', 'DOY_cos', 'Solar_Lag_1', 'Solar_Lag_2', 'Solar_Lag_7', 'Solar_Roll7', 'Solar_Roll30']
+OOB R² Score    : 0.848044
+Training Time   : 5.36 seconds

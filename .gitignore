@@ -1,0 +1,11 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore large output files and models to keep repo lightweight
+outputs/*.csv
+outputs/*.joblib
+
+# But KEEP the figures and metrics
+!outputs/*.png
+!outputs/*.txt

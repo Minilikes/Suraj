@@ -1,0 +1,5 @@
+PERSISTENCE BASELINE MODEL METRICS
+========================================
+MAE  : 0.648543
+RMSE : 0.952763
+R2   : 0.581394
