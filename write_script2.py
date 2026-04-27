@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+js = r"""document.addEventListener("DOMContentLoaded", () => {
     const citySelect      = document.getElementById("city-select");
     const cloudSlider     = document.getElementById("cloud-fraction");
     const tempSlider      = document.getElementById("temperature");
@@ -128,3 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCityMeta();
     getPrediction();
 });
+"""
+
+with open("dashboard/script.js", "w", encoding="utf-8") as f:
+    f.write(js)
+print("script.js written OK")

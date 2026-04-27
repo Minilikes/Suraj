@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -34,7 +34,7 @@
         </select>
         <div class="city-meta">
             <div class="city-stat">
-                <div class="city-stat-label">Model R²</div>
+                <div class="city-stat-label">Model R\u00b2</div>
                 <div class="city-stat-value" id="city-r2">0.845</div>
             </div>
             <div class="city-stat">
@@ -77,7 +77,7 @@
                         </div>
                         Temperature
                     </div>
-                    <span id="temp-val" class="value-display">25 °C</span>
+                    <span id="temp-val" class="value-display">25 \u00b0C</span>
                 </div>
                 <input type="range" id="temperature" min="10" max="45" value="25">
             </div>
@@ -107,7 +107,7 @@
                         </div>
                         Yesterday's Irradiance
                     </div>
-                    <span id="yesterday-val" class="value-display">5.0 MJ/m²</span>
+                    <span id="yesterday-val" class="value-display">5.0 MJ/m\u00b2</span>
                 </div>
                 <input type="range" id="yesterday-irradiance" min="0" max="10" step="0.1" value="5.0">
             </div>
@@ -123,7 +123,7 @@
                 </svg>
                 <div class="gauge-readout">
                     <span id="prediction-val" class="large-value">--</span>
-                    <span class="unit">MJ/m²</span>
+                    <span class="unit">MJ/m\u00b2</span>
                 </div>
             </div>
 
@@ -138,10 +138,14 @@
     </main>
 
     <footer class="dashboard-footer">
-        S.U.R.A.J. · NASA POWER API · 5-Year Training Data 2019–2023 · Random Forest Regressor
+        S.U.R.A.J. \u00b7 NASA POWER API \u00b7 5-Year Training Data 2019\u20132023 \u00b7 Random Forest Regressor
     </footer>
 
 </div>
 <script src="script.js"></script>
 </body>
-</html>
+</html>"""
+
+with open("dashboard/index.html", "w", encoding="utf-8") as f:
+    f.write(html)
+print("index.html written OK")

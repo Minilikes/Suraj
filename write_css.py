@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap');
+css = """@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
     --bg: #080c14;
@@ -434,3 +434,8 @@ input[type=range]::-webkit-slider-thumb:hover {
     text-transform: uppercase;
     border-top: 1px solid var(--panel-border);
 }
+"""
+
+with open("dashboard/styles.css", "w", encoding="utf-8") as f:
+    f.write(css)
+print("styles.css written OK")

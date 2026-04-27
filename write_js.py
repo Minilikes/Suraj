@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+js = r"""document.addEventListener("DOMContentLoaded", () => {
     const citySelect      = document.getElementById("city-select");
     const cloudSlider     = document.getElementById("cloud-fraction");
     const tempSlider      = document.getElementById("temperature");
@@ -13,22 +13,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusDot       = document.getElementById("status-dot");
     const statusText      = document.getElementById("status-text");
     const apiStatus       = document.getElementById("api-status");
-    const cityR2          = document.getElementById("city-r2");
-    const cityClimate     = document.getElementById("city-climate");
 
     const GAUGE_RADIUS        = 80;
     const GAUGE_CIRCUMFERENCE = Math.PI * GAUGE_RADIUS;
     const MAX_IRRADIANCE      = 10.0;
     gaugeFill.style.strokeDasharray = GAUGE_CIRCUMFERENCE;
-    gaugeFill.style.strokeDashoffset = GAUGE_CIRCUMFERENCE;
 
-    const CITY_DATA = {
-        Jabalpur: { cloud: 50, temp: 25, humidity: 60, yesterday: 5.0, r2: "0.845", climate: "Tropical" },
-        Bhopal:   { cloud: 45, temp: 26, humidity: 55, yesterday: 5.2, r2: "0.875", climate: "Tropical" },
-        Delhi:    { cloud: 35, temp: 28, humidity: 45, yesterday: 5.5, r2: "0.885", climate: "Semi-Arid" },
-        Mumbai:   { cloud: 60, temp: 30, humidity: 75, yesterday: 4.8, r2: "0.891", climate: "Coastal" },
-        Jaipur:   { cloud: 25, temp: 32, humidity: 35, yesterday: 6.0, r2: "0.859", climate: "Arid" },
-        Ladakh:   { cloud: 20, temp: 10, humidity: 30, yesterday: 6.5, r2: "0.830", climate: "Cold-Arid" },
+    const CITY_DEFAULTS = {
+        Jabalpur: { cloud: 50, temp: 25, humidity: 60, yesterday: 5.0 },
+        Bhopal:   { cloud: 45, temp: 26, humidity: 55, yesterday: 5.2 },
+        Delhi:    { cloud: 35, temp: 28, humidity: 45, yesterday: 5.5 },
+        Mumbai:   { cloud: 60, temp: 30, humidity: 75, yesterday: 4.8 },
+        Jaipur:   { cloud: 25, temp: 32, humidity: 35, yesterday: 6.0 },
+        Ladakh:   { cloud: 20, temp: 10, humidity: 30, yesterday: 6.5 },
     };
 
     function updateLabels() {
@@ -38,12 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
         yesterdayVal.textContent = parseFloat(yesterdaySlider.value).toFixed(1) + " MJ/m\u00b2";
     }
 
-    function updateCityMeta() {
-        const d = CITY_DATA[citySelect.value];
-        if (cityR2) cityR2.textContent = d.r2;
-        if (cityClimate) cityClimate.textContent = d.climate;
-    }
-
     async function getPrediction() {
         const city      = citySelect.value;
         const cloud     = parseFloat(cloudSlider.value);
@@ -51,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const humidity  = parseFloat(humiditySlider.value);
         const yesterday = parseFloat(yesterdaySlider.value);
 
-        apiStatus.textContent = "Predicting\u2026";
-        apiStatus.style.color = "#00e5ff";
+        apiStatus.textContent = "Predicting...";
+        apiStatus.style.color = "var(--neon-cyan)";
 
         try {
             const response = await fetch("http://127.0.0.1:5000/predict", {
@@ -66,57 +57,51 @@ document.addEventListener("DOMContentLoaded", () => {
             updateGauge(data.prediction);
             updateStatus(data.prediction);
         } catch (err) {
-            apiStatus.textContent = "Backend offline \u2014 run app.py first";
-            apiStatus.style.color = "#ff4444";
+            apiStatus.textContent = "Backend offline - run app.py first";
+            apiStatus.style.color = "var(--neon-red)";
             predictionVal.textContent = "--";
         }
     }
 
     function updateGauge(value) {
         predictionVal.textContent = value.toFixed(2);
-        const percentage = Math.min(value / MAX_IRRADIANCE, 1);
+        const percentage = value / MAX_IRRADIANCE;
         const offset     = GAUGE_CIRCUMFERENCE - (percentage * GAUGE_CIRCUMFERENCE);
         gaugeFill.style.strokeDashoffset = offset;
-
-        let color, shadow;
-        if (value >= 7) {
-            color = "#00e5ff"; shadow = "0 0 20px rgba(0,229,255,0.5)";
-        } else if (value >= 4) {
-            color = "#ff9500"; shadow = "0 0 20px rgba(255,149,0,0.5)";
-        } else {
-            color = "#ff4444"; shadow = "0 0 20px rgba(255,68,68,0.5)";
-        }
-
-        gaugeFill.style.stroke          = color;
-        predictionVal.style.textShadow  = shadow;
-        predictionVal.style.color       = "#fff";
+        let color;
+        if (value >= 7)      color = "var(--neon-cyan)";
+        else if (value >= 4) color = "var(--neon-orange)";
+        else                 color = "var(--neon-red)";
+        gaugeFill.style.stroke = color;
+        gaugeFill.style.filter = "drop-shadow(0 0 8px " + color + ")";
+        predictionVal.style.color      = "#fff";
+        predictionVal.style.textShadow = "0 0 15px " + color;
     }
 
     function updateStatus(value) {
         statusDot.className = "status-dot";
         if (value >= 7) {
             statusDot.classList.add("green");
-            statusText.textContent  = "High output expected";
-            statusText.style.color  = "#00e5ff";
+            statusText.textContent = "High Output Expected";
+            statusText.style.color = "var(--neon-cyan)";
         } else if (value >= 4) {
             statusDot.classList.add("yellow");
-            statusText.textContent  = "Moderate output";
-            statusText.style.color  = "#ff9500";
+            statusText.textContent = "Moderate Output";
+            statusText.style.color = "var(--neon-orange)";
         } else {
             statusDot.classList.add("red");
-            statusText.textContent  = "Low output \u2014 heavy coverage";
-            statusText.style.color  = "#ff4444";
+            statusText.textContent = "Low Output / Heavy Coverage";
+            statusText.style.color = "var(--neon-red)";
         }
     }
 
     citySelect.addEventListener("change", () => {
-        const d = CITY_DATA[citySelect.value];
+        const d = CITY_DEFAULTS[citySelect.value];
         cloudSlider.value     = d.cloud;
         tempSlider.value      = d.temp;
         humiditySlider.value  = d.humidity;
         yesterdaySlider.value = d.yesterday;
         updateLabels();
-        updateCityMeta();
         getPrediction();
     });
 
@@ -125,6 +110,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     updateLabels();
-    updateCityMeta();
     getPrediction();
 });
+"""
+
+with open("dashboard/script.js", "w", encoding="utf-8") as f:
+    f.write(js)
+print("script.js written OK")
