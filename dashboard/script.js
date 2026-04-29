@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const humidityVal     = document.getElementById("humidity-val");
     const yesterdayVal    = document.getElementById("yesterday-val");
     const predictionVal   = document.getElementById("prediction-val");
-    const gaugeFill       = document.getElementById("gauge-fill");
+    const gaugeFill       = document.getElementById("g-fill");
     const statusDot       = document.getElementById("status-dot");
     const statusText      = document.getElementById("status-text");
     const apiStatus       = document.getElementById("api-status");
@@ -19,16 +19,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const GAUGE_RADIUS        = 80;
     const GAUGE_CIRCUMFERENCE = Math.PI * GAUGE_RADIUS;
     const MAX_IRRADIANCE      = 10.0;
-    gaugeFill.style.strokeDasharray = GAUGE_CIRCUMFERENCE;
+    gaugeFill.style.strokeDasharray  = GAUGE_CIRCUMFERENCE;
     gaugeFill.style.strokeDashoffset = GAUGE_CIRCUMFERENCE;
 
     const CITY_DATA = {
-        Jabalpur: { cloud: 50, temp: 25, humidity: 60, yesterday: 5.0, r2: "0.845", climate: "Tropical" },
-        Bhopal:   { cloud: 45, temp: 26, humidity: 55, yesterday: 5.2, r2: "0.875", climate: "Tropical" },
-        Delhi:    { cloud: 35, temp: 28, humidity: 45, yesterday: 5.5, r2: "0.885", climate: "Semi-Arid" },
-        Mumbai:   { cloud: 60, temp: 30, humidity: 75, yesterday: 4.8, r2: "0.891", climate: "Coastal" },
-        Jaipur:   { cloud: 25, temp: 32, humidity: 35, yesterday: 6.0, r2: "0.859", climate: "Arid" },
-        Ladakh:   { cloud: 20, temp: 10, humidity: 30, yesterday: 6.5, r2: "0.830", climate: "Cold-Arid" },
+        Jabalpur: { cloud:50, temp:25, humidity:60, yesterday:5.0, r2:"0.845", climate:"Tropical" },
+        Bhopal:   { cloud:45, temp:26, humidity:55, yesterday:5.2, r2:"0.875", climate:"Tropical" },
+        Delhi:    { cloud:35, temp:28, humidity:45, yesterday:5.5, r2:"0.885", climate:"Semi-Arid" },
+        Mumbai:   { cloud:60, temp:30, humidity:75, yesterday:4.8, r2:"0.891", climate:"Coastal" },
+        Jaipur:   { cloud:25, temp:32, humidity:35, yesterday:6.0, r2:"0.859", climate:"Arid" },
+        Ladakh:   { cloud:20, temp:10, humidity:30, yesterday:6.5, r2:"0.830", climate:"Cold-Arid" },
     };
 
     function updateLabels() {
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateCityMeta() {
         const d = CITY_DATA[citySelect.value];
-        if (cityR2) cityR2.textContent = d.r2;
+        if (cityR2)      cityR2.textContent      = d.r2;
         if (cityClimate) cityClimate.textContent = d.climate;
     }
 
@@ -55,18 +55,18 @@ document.addEventListener("DOMContentLoaded", () => {
         apiStatus.style.color = "#00e5ff";
 
         try {
-            const response = await fetch("http://127.0.0.1:5000/predict", {
+            const res = await fetch("http://127.0.0.1:5000/predict", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ city, cloud, temp, humidity, yesterday })
             });
-            if (!response.ok) throw new Error("Server error");
-            const data = await response.json();
+            if (!res.ok) throw new Error();
+            const data = await res.json();
             apiStatus.textContent = "";
             updateGauge(data.prediction);
             updateStatus(data.prediction);
-        } catch (err) {
-            apiStatus.textContent = "Backend offline \u2014 run app.py first";
+        } catch {
+            apiStatus.textContent = "Backend offline \u2014 run app.py";
             apiStatus.style.color = "#ff4444";
             predictionVal.textContent = "--";
         }
@@ -74,57 +74,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateGauge(value) {
         predictionVal.textContent = value.toFixed(2);
-        const percentage = Math.min(value / MAX_IRRADIANCE, 1);
-        const offset     = GAUGE_CIRCUMFERENCE - (percentage * GAUGE_CIRCUMFERENCE);
+        const pct    = Math.min(value / MAX_IRRADIANCE, 1);
+        const offset = GAUGE_CIRCUMFERENCE - pct * GAUGE_CIRCUMFERENCE;
         gaugeFill.style.strokeDashoffset = offset;
 
         let color, shadow;
-        if (value >= 7) {
-            color = "#00e5ff"; shadow = "0 0 20px rgba(0,229,255,0.5)";
-        } else if (value >= 4) {
-            color = "#ff9500"; shadow = "0 0 20px rgba(255,149,0,0.5)";
-        } else {
-            color = "#ff4444"; shadow = "0 0 20px rgba(255,68,68,0.5)";
-        }
+        if (value >= 7)      { color = "#00e5ff"; shadow = "0 0 22px rgba(0,229,255,0.5)"; }
+        else if (value >= 4) { color = "#ff9500"; shadow = "0 0 22px rgba(255,149,0,0.5)"; }
+        else                 { color = "#ff4444"; shadow = "0 0 22px rgba(255,68,68,0.5)"; }
 
-        gaugeFill.style.stroke          = color;
-        predictionVal.style.textShadow  = shadow;
-        predictionVal.style.color       = "#fff";
+        gaugeFill.style.stroke         = color;
+        predictionVal.style.textShadow = shadow;
+        predictionVal.style.color      = "#fff";
     }
 
     function updateStatus(value) {
-        statusDot.className = "status-dot";
+        statusDot.className = "dot";
         if (value >= 7) {
-            statusDot.classList.add("green");
-            statusText.textContent  = "High output expected";
-            statusText.style.color  = "#00e5ff";
+            statusDot.classList.add("c");
+            statusText.textContent = "High output expected";
+            statusText.style.color = "#00e5ff";
         } else if (value >= 4) {
-            statusDot.classList.add("yellow");
-            statusText.textContent  = "Moderate output";
-            statusText.style.color  = "#ff9500";
+            statusDot.classList.add("o");
+            statusText.textContent = "Moderate output";
+            statusText.style.color = "#ff9500";
         } else {
-            statusDot.classList.add("red");
-            statusText.textContent  = "Low output \u2014 heavy coverage";
-            statusText.style.color  = "#ff4444";
+            statusDot.classList.add("r");
+            statusText.textContent = "Low output \u2014 heavy coverage";
+            statusText.style.color = "#ff4444";
         }
     }
 
     citySelect.addEventListener("change", () => {
         const d = CITY_DATA[citySelect.value];
-        cloudSlider.value     = d.cloud;
-        tempSlider.value      = d.temp;
-        humiditySlider.value  = d.humidity;
-        yesterdaySlider.value = d.yesterday;
-        updateLabels();
-        updateCityMeta();
-        getPrediction();
+        cloudSlider.value = d.cloud; tempSlider.value = d.temp;
+        humiditySlider.value = d.humidity; yesterdaySlider.value = d.yesterday;
+        updateLabels(); updateCityMeta(); getPrediction();
     });
 
-    [cloudSlider, tempSlider, humiditySlider, yesterdaySlider].forEach(s => {
-        s.addEventListener("input", () => { updateLabels(); getPrediction(); });
-    });
+    [cloudSlider, tempSlider, humiditySlider, yesterdaySlider].forEach(s =>
+        s.addEventListener("input", () => { updateLabels(); getPrediction(); })
+    );
 
-    updateLabels();
-    updateCityMeta();
-    getPrediction();
+    updateLabels(); updateCityMeta(); getPrediction();
 });
