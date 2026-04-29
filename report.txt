@@ -3,10 +3,10 @@ AUTHOR: [Author Name]
 DATE: 2026-04-22
 
 ABSTRACT
-This report details the development and deployment of S.U.R.A.J., a comprehensive Solar Energy Forecasting pipeline and interactive dashboard. The primary objective is to accurately predict solar irradiance by analyzing critical meteorological factors: Cloud Fraction, Temperature, Relative Humidity, and historical irradiance data. The project bridges the gap between complex machine learning model outputs and actionable, real-time insights through an interactive, highly visual frontend interface.
+This report details the development and deployment of S.U.R.A.J., a comprehensive Solar Energy Forecasting pipeline and interactive dashboard. The primary objective is to accurately predict solar irradiance across diverse Indian climates by analyzing critical meteorological factors: Cloud Fraction, Temperature, Relative Humidity, and historical irradiance data. The project bridges the gap between complex machine learning model outputs and actionable, real-time insights through an interactive, highly visual frontend interface.
 
 1. INTRODUCTION
-Solar energy generation is heavily dependent on meteorological conditions. Accurate forecasting of solar irradiance is critical for grid stability, energy trading, and efficient power distribution. The S.U.R.A.J. project provides an end-to-end solution, comprising a robust machine learning backend for predictive modeling and an interactive web-based dashboard for real-time scenario simulation.
+Solar energy generation is heavily dependent on meteorological conditions. Accurate forecasting of solar irradiance is critical for grid stability, energy trading, and efficient power distribution. The S.U.R.A.J. project provides an end-to-end solution, comprising a robust, multi-city machine learning backend for predictive modeling and an interactive web-based dashboard for real-time scenario simulation.
 
 2. METHODOLOGY & MACHINE LEARNING PIPELINE
 The backend predictive pipeline is developed in Python using Scikit-learn and follows a rigorous data science methodology:

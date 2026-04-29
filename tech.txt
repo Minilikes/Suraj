@@ -10,8 +10,8 @@ PART 1: THE "BRAIN" (The Machine Learning Pipeline)
 Imagine you are trying to predict how sunny it will be tomorrow. To do this accurately, you'd look at past weather records, find patterns, and use those patterns to make a guess. This is exactly what our Machine Learning (ML) pipeline does using Python. It consists of 11 sequential steps (scripts):
 
 1. 01_data_fetch.py (Gathering the Ingredients)
-What it does: This script goes out to the internet (or a database) and downloads massive amounts of historical weather and solar data. 
-Simple terms: It's like going to the grocery store to buy all the raw ingredients before you start cooking.
+What it does: This script goes out to the internet and downloads massive amounts of historical weather and solar data for 6 different cities across India. 
+Simple terms: It's like going to several different grocery stores to buy a diverse set of raw ingredients before you start cooking.
 
 2. 02_data_preprocessing.py (Washing and Chopping)
 What it does: Raw data is often messy—missing numbers, wrong formats, or duplicates. This script cleans everything up.

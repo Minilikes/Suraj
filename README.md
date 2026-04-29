@@ -1,13 +1,13 @@
 # ☀️ Predictive Solar Energy Forecasting — Research Project
-### Localized ML-Based Forecasting for Tropical Indian Climate (23.18°N, 79.98°E)
+### Localized ML-Based Forecasting for Diverse Indian Climates
 
 ---
 
 ## 📖 Project Overview
 
-This project implements a **machine-learning-based solar irradiance forecasting pipeline** designed for publication in **Google Scholar / IEEE / Springer** journals. It uses real meteorological data from the **NASA POWER API** to predict daily solar irradiance for a specific tropical Indian location (Jabalpur, Madhya Pradesh).
+This project implements a **machine-learning-based solar irradiance forecasting pipeline** designed for publication in **Google Scholar / IEEE / Springer** journals. It uses real meteorological data from the **NASA POWER API** to predict daily solar irradiance for 6 diverse geographical locations across India (Jabalpur, Bhopal, Delhi, Mumbai, Jaipur, Ladakh).
 
-**Research Focus:** Demonstrating the superiority of ensemble ML models (Random Forest, XGBoost) over naive persistence baselines for localized solar energy prediction in developing-nation smart grid contexts.
+**Research Focus:** Demonstrating the superiority of ensemble ML models (Random Forest, XGBoost) over naive persistence baselines for localized solar energy prediction across varied climate zones in developing-nation smart grid contexts.
 
 ---
 
@@ -65,9 +65,7 @@ python 11_actual_vs_predicted.py
 
 | Parameter | Value |
 |---|---|
-| Latitude | 23.18° N |
-| Longitude | 79.98° E |
-| Region | Jabalpur, Madhya Pradesh, India |
-| Climate Type | Tropical / Sub-humid |
+| Regions | Jabalpur, Bhopal, Delhi, Mumbai, Jaipur, Ladakh |
+| Climate Types | Tropical, Semi-arid, Arid, Coastal, Cold Arid |
 | Data Source | NASA POWER Daily Climatology API |
 | Period | 2019–2023 (5 Years) |

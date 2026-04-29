@@ -7,7 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: #050300; color: #fff; }
+        html { scroll-behavior: smooth; }
+        html, body { min-height: 100%; overflow-x: hidden; font-family: 'Inter', sans-serif; background: #050300; color: #fff; }
         .scene { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
         .bg-sun {
             position: absolute; top: 50%; left: -8vw;
@@ -75,14 +76,82 @@
         .bottom-strip { position: absolute; bottom: 2rem; right: 7vw; display: flex; align-items: center; gap: 2rem; opacity: 0; animation: fadeIn 1s ease forwards 1.5s; }
         .bottom-tag { font-size: 0.62rem; letter-spacing: 0.15rem; text-transform: uppercase; color: rgba(255,255,255,0.18); display: flex; align-items: center; gap: 0.5rem; }
         .bottom-tag::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,160,30,0.45); }
-        .scroll-indicator { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; opacity: 0; animation: fadeIn 1s ease forwards 2s, scrollPulse 2s ease-in-out 2s infinite; cursor: pointer; color: #ffffff; transition: opacity 0.3s; }
-        .scroll-indicator:hover { opacity: 0.8; }
+        .scroll-indicator { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; opacity: 0; animation: fadeIn 1s ease forwards 2s, scrollPulse 2s ease-in-out 2s infinite; cursor: pointer; color: #ffffff; transition: opacity 0.3s, color 0.3s; text-decoration: none; z-index: 20; }
+        .scroll-indicator:hover { opacity: 1; color: rgba(255, 200, 80, 0.9); }
         .scroll-text { font-size: 0.65rem; letter-spacing: 0.2rem; text-transform: uppercase; font-family: 'Orbitron', sans-serif; }
         .scroll-arrow { width: 14px; height: 14px; }
         @keyframes scrollPulse { 0%,100%{transform:translateX(-50%) translateY(0);opacity:0.7} 50%{transform:translateX(-50%) translateY(6px);opacity:1} }
         .particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
         .particle { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: rgba(255,180,50,0.55); animation: float var(--dur) ease-in-out infinite var(--delay); }
         @keyframes float { 0%,100%{transform:translateY(0) translateX(0);opacity:0} 20%{opacity:1} 80%{opacity:0.4} 100%{transform:translateY(-120px) translateX(var(--dx));opacity:0} }
+        .details-wrapper {
+            background: #050300;
+            padding: 6rem 10vw;
+            position: relative;
+            z-index: 10;
+        }
+        .details-container {
+            max-width: 900px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        .details-container h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: rgba(255, 200, 80, 0.95);
+            font-size: 1.8rem;
+            margin-top: 3.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.08rem;
+            border-bottom: 1px solid rgba(255, 160, 30, 0.2);
+            padding-bottom: 0.5rem;
+        }
+        .details-container h2:first-child {
+            margin-top: 0;
+        }
+        .details-container p {
+            margin-bottom: 1.5rem;
+        }
+        .details-container ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.8rem;
+            list-style: none;
+        }
+        .details-container ul li {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .details-container ul li::before {
+            content: '>';
+            position: absolute;
+            left: -1.8rem;
+            color: rgba(255, 160, 30, 0.8);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+        }
+        .details-container strong.highlight {
+            color: #fff;
+            font-weight: 500;
+            background: rgba(255, 160, 30, 0.15);
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+        }
+        .details-container .highlight-text {
+            color: rgba(255, 200, 80, 0.9);
+            font-weight: 600;
+        }
+        .details-container a.contact-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(255, 160, 30, 0.5);
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .details-container a.contact-link:hover {
+            color: rgba(255, 200, 80, 1);
+            border-bottom: 1px solid rgba(255, 200, 80, 1);
+        }
         @media (max-width: 700px) {
             .bg-sun { left: -40vw; height: 100vh; }
             .content { right: 5vw; left: 5vw; max-width: 100%; }
@@ -111,9 +180,56 @@
 
     </div>
 
-    <div class="scroll-indicator">
+    <a href="#details" class="scroll-indicator">
         <span class="scroll-text">Details</span>
         <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+    </a>
+</div>
+
+<div id="details" class="details-wrapper">
+    <div class="details-container">
+        <h2>Introduction</h2>
+        <p>Project S.U.R.A.J. (<strong class="highlight-text">Solar Utility & Radiance Analytical Judgment</strong>) is a comprehensive <strong class="highlight">machine-learning-based solar energy forecasting pipeline</strong> and interactive web dashboard. It is designed to provide robust predictions across diverse climates, with its modeling structured around the distinct meteorological conditions of <strong class="highlight-text">6 major Indian cities</strong> (spanning tropical, arid, and cold climates). The project bridges the gap between complex predictive algorithms and practical, real-time insights.</p>
+
+        <h2>What It Does</h2>
+        <p>The project is divided into two core architectures:</p>
+        <ul>
+            <li><strong class="highlight-text">The Predictive Pipeline ("The Brain"):</strong> A rigorous 11-step Python data science pipeline that manages everything from data fetching and cleaning to feature engineering. It calculates the impact of vital environmental variables—such as <strong class="highlight">cloud fraction, temperature, relative humidity, and previous-day irradiance</strong>—to generate daily solar output predictions.</li>
+            <li><strong class="highlight-text">The Interactive Dashboard ("The Face"):</strong> A responsive, web-based interface built with HTML5, CSS3, and JavaScript. It features an intuitive control panel where users can manually adjust environmental sliders (like cloud cover and temperature) and immediately see the simulated solar output reflected on a dynamic, <strong class="highlight">color-coded SVG gauge</strong>.</li>
+        </ul>
+
+        <h2>How the NASA API is Used</h2>
+        <p>At the foundation of the ML pipeline is real-world meteorological data sourced from the <strong class="highlight-text">NASA POWER (Prediction Of Worldwide Energy Resources) API</strong>.</p>
+        <ul>
+            <li>An automated script queries the API's daily climatology endpoints to fetch <strong class="highlight">five continuous years (2019–2023)</strong> of historical weather data for multiple geographical coordinates across India.</li>
+            <li>The system extracts highly specific atmospheric parameters, including shortwave downward solar irradiance (<strong class="highlight">ALLSKY_SFC_SW_DWN</strong>), 2-meter temperature (<strong class="highlight">T2M</strong>), relative humidity (<strong class="highlight">RH2M</strong>), cloud amount (<strong class="highlight">CLOUD_AMT</strong>), wind speed (<strong class="highlight">WS2M</strong>), and precipitation (<strong class="highlight">PRECTOTCORR</strong>). This forms the raw dataset the AI uses to identify weather patterns.</li>
+        </ul>
+
+        <h2>Uses & Benefits</h2>
+        <ul>
+            <li><strong class="highlight-text">Operational Efficiency:</strong> Accurate solar irradiance forecasting is critical for modern energy infrastructure, aiding in <strong class="highlight">grid stability, energy trading, and efficient power distribution</strong>.</li>
+            <li><strong class="highlight-text">Accessible Scenario Testing:</strong> By simulating the trained ML logic on the frontend, the dashboard provides a practical, hands-on tool for energy professionals to test hypothetical weather scenarios <strong class="highlight">without needing coding expertise</strong>.</li>
+            <li><strong class="highlight-text">Localized Focus:</strong> Unlike generic weather models, S.U.R.A.J. is structured to prove the superiority of localized machine learning models over naive baseline estimates, specifically for <strong class="highlight">developing-nation smart grid contexts</strong>.</li>
+        </ul>
+
+        <h2>Model Accuracy & Performance</h2>
+        <p>The system relies on a <strong class="highlight-text">Random Forest Regressor</strong>, an ensemble learning method chosen for its ability to map non-linear relationships between complex environmental factors. After rigorous evaluation and hyperparameter tuning to minimize overfitting, the model achieved the following metrics on unseen test data:</p>
+        <ul>
+            <li><strong class="highlight-text">R² Score (Accuracy):</strong> <strong class="highlight">~0.846</strong></li>
+            <li><strong class="highlight-text">Mean Absolute Error (MAE):</strong> <strong class="highlight">0.423</strong></li>
+            <li><strong class="highlight-text">Root Mean Squared Error (RMSE):</strong> <strong class="highlight">0.578</strong></li>
+        </ul>
+
+        <h2>Future Goals</h2>
+        <p>While the current architecture successfully leverages historical daily climatology and multi-city fetching to create a generalized predictive model across diverse climates, future iterations of the project will focus on transitioning from historical data to <strong class="highlight">real-time live weather API streams</strong>. This will enable immediate, localized forecasting and eventually move the entire architecture into a fully automated, <strong class="highlight">cloud-native pan-India application</strong>.</p>
+
+        <h2>Developer & Contact</h2>
+        <ul>
+            <li><strong class="highlight-text">Developer:</strong> Pragati Rajput</li>
+            <li><strong class="highlight-text">Email:</strong> <a href="mailto:rajputpragati13@gmail.com" class="contact-link">rajputpragati13@gmail.com</a></li>
+            <li><strong class="highlight-text">LinkedIn:</strong> <a href="https://www.linkedin.com/in/pragati-rajput-a3372533a?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="contact-link">Pragati Rajput</a></li>
+            <li><strong class="highlight-text">GitHub:</strong> <a href="https://github.com/Minilikes" target="_blank" class="contact-link">Minilikes</a></li>
+        </ul>
     </div>
 </div>
 <script>
